@@ -5,14 +5,11 @@
 
   let mixedBold(body) = {
     set text(font: "Hiragino Sans", weight: "light")
-    show regex(printableAscii): set text(font: "Times New Roman", weight: "bold")
+    show regex(printableAscii): set text(font: "Times New Roman", weight: "bold", size: 1.15em)
     body
   }
 
   set text(font: "Hiragino Mincho ProN", weight: "regular", size: 10.5pt)
-
-  // TODO: raw.where(block: true)でHackGen Console NFにならない問題
-  // show regex(printableAscii): set text(font: "Times New Roman", size: 1.15em)
 
   show strong: it => {
     set text(weight: "thin")
@@ -45,21 +42,24 @@
 
   set outline(title: "目次", depth: 4)
 
-  let titlepage(title: content, author: content) = {
+  set table(stroke: (x: none))
+
+  {
+    // titlepage
     pagebreak(weak: true)
     set page(numbering: none)
     set align(center)
     v(1fr)
-    text(size: 2em, mixedBold(title))
-    v(1em)
-    author
+    if title != none {
+      text(size: 2em, mixedBold(title))
+    }
+    if author != none {
+      v(1em)
+      author
+    }
     v(1fr)
     outline()
     v(1fr)
-  }
-
-  if title != none {
-    titlepage(title: title, author: author)
   }
 
   doc
