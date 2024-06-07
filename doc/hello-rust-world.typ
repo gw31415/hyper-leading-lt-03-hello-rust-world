@@ -245,6 +245,33 @@ fn parse_test() -> Result<(), std::num::ParseIntError> {
 
 ==== 後置await
 
+並行処理の記述のために便利な記法として、様々なプログラミング言語で `async` / `await` を利用することができます。例えば、以下のコードは`async`関数内で`await`を使って非同期処理を行っています。
+```javascript
+async function main() {
+    const response = await fetch('https://example.com');
+    const text = await response.text();
+    console.log(text);
+}
+```
+`await`を用いると、非同期な関数をロジック内に記述する際に、「非同期処理が終わるまで待機する」ような感覚で非同期処理を混ぜ込んだコードを書くことができるのです。
+
+ただし先程のように、`await`は前置記法なのでしばしば不便な場面があります。例えば、先程のコードを一行で書いてみましょう。
+```javascript
+async function main() {
+    console.log(await (await fetch('https://example.com')).text());
+}
+```
+`await`が前置記法の場合、非同期処理が多重になった際に`()`を用いて親子関係を明示する必要が出てくるのです。冗長なコードに見えると思います。
+
+Rustの場合、`await`には後置記法が採用されています。先程のコードをRustで書いてみましょう。
+```rust
+async fn main() -> Result<(), Box<dyn Error>> {
+    println!("{}", reqwest::get("https://example.com").await?.text().await?);
+    Ok(())
+}
+```
+このように、`await`を後置記法で書くことができるため、非同期処理が多重になっても`()`を用いる必要がなく、コードがすっきりと書けるようになります。読む際も左から右へと読むことができるため、コードの可読性が向上します。関数型言語によく見られる*メソッドチェーン*からの影響を受けています。
+
 === 所有権 & 型
 
 Rustには変数と値の間に*所有権*の概念があります。値は所有される変数がただ一つであり、値の共有はデフォルトではできません(明示的にスマートポインタ等でラップする必要がある)。
