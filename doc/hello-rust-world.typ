@@ -1,7 +1,10 @@
 #import "./template.typ": *
-#show: template
 
-#titlepage(title: [いつRustを選択するべきか], author: [Ama / Yuki Okugawa])
+#show: template.with(
+  title: [いつRustを選択するべきか],
+  author: [Ama / Yuki Okugawa],
+  bib: "hello-rust-world.bib",
+)
 
 = この発表の目的
 
@@ -384,7 +387,3 @@ fn main() {
 == 重すぎるコンパイラと型チェック
 
 == 円熟したライブラリの不足
-
-#bibliography(
-  "hello-rust-world.bib", style: "association-for-computing-machinery", title: "参考文献", full: true,
-)

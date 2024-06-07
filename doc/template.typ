@@ -1,14 +1,14 @@
 #import "@preview/codelst:2.0.1": sourcecode
 
-#let printableAscii = "[\p{ascii}&&\P{C}]"
+#let template(doc, title: none, author: none, bib: none) = {
+  let printableAscii = "[\p{ascii}&&\P{C}]"
 
-#let mixedBold(body) = {
-  set text(font: "Hiragino Sans", weight: "light")
-  show regex(printableAscii): set text(font: "Times New Roman", weight: "bold")
-  body
-}
+  let mixedBold(body) = {
+    set text(font: "Hiragino Sans", weight: "light")
+    show regex(printableAscii): set text(font: "Times New Roman", weight: "bold")
+    body
+  }
 
-#let template(doc) = {
   set text(font: "Hiragino Mincho ProN", weight: "regular", size: 10.5pt)
 
   // TODO: raw.where(block: true)でHackGen Console NFにならない問題
@@ -45,18 +45,28 @@
 
   set outline(title: "目次", depth: 4)
 
-  doc
-}
+  let titlepage(title: content, author: content) = {
+    pagebreak(weak: true)
+    set page(numbering: none)
+    set align(center)
+    v(1fr)
+    text(size: 2em, mixedBold(title))
+    v(1em)
+    author
+    v(1fr)
+    outline()
+    v(1fr)
+  }
 
-#let titlepage(title: content, author: content) = {
-  pagebreak(weak: true)
-  set page(numbering: none)
-  set align(center)
-  v(1fr)
-  text(size: 2em, mixedBold(title))
-  v(1em)
-  author
-  v(1fr)
-  outline()
-  v(1fr)
+  if title != none {
+    titlepage(title: title, author: author)
+  }
+
+  doc
+
+  if bib != none {
+    bibliography(
+      bib, style: "association-for-computing-machinery", title: "参考文献", full: true,
+    )
+  }
 }
