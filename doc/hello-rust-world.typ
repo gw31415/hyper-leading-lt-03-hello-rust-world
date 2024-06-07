@@ -1,9 +1,7 @@
 #import "./template.typ": *
 
 #show: template.with(
-  title: [いつRustを選択するべきか],
-  author: [Ama / Yuki Okugawa],
-  bib: "hello-rust-world.bib",
+  title: [いつRustを選択するべきか], author: [Ama / Yuki Okugawa], bib: "hello-rust-world.bib",
 )
 
 = この発表の目的
@@ -225,7 +223,7 @@ func main() {
 - 予期せぬエラーを防止するために、コーディング中にプログラマーが起こりうるエラーを把握したい。
 
 #table(
-  columns: (1fr,1fr,2fr), table.header(
+  columns: (1fr, 1fr, 2fr), table.header(
     [*方式*], [*ハンドリング箇所*], [*エラー発生箇所*], //
   ), [`try-catch`方式], [上層に返す(○)], [プログラマーが把握する必要がある(△)], //
   [`Result`型方式], [その場で対応(△)], [構文的に明示される(○)], //
