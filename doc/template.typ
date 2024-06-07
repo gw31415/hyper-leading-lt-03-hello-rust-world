@@ -4,20 +4,17 @@
   let printableAscii = "[\p{ascii}&&\P{C}]"
 
   let mixedBold(body) = {
-    set text(font: "Hiragino Sans", weight: "light")
-    show regex(printableAscii): set text(font: "Times New Roman", weight: "bold", size: 1.15em)
+    set text(font: "Hiragino Sans", weight: "extralight")
+    show regex(printableAscii): set text(font: "Times New Roman", weight: "light", size: 1.15em)
     body
   }
 
   set text(font: "Hiragino Mincho ProN", weight: "regular", size: 10.5pt)
 
-  show strong: it => {
-    set text(weight: "thin")
-    mixedBold(it)
-  }
+  show strong: mixedBold
   set heading(numbering: "1.")
   show heading: it => {
-    mixedBold(it)
+    mixedBold(text(weight: "regular", it))
     par(text(size: 0pt, ""))
   }
   show outline: it => {
@@ -37,6 +34,8 @@
   }
 
   set par(first-line-indent: 1em)
+
+  set text(top-edge: 0.7em, bottom-edge: -0.3em)
 
   set page(numbering: "1")
 
