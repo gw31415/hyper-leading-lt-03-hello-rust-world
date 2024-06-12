@@ -44,8 +44,7 @@ Rustは元々バックエンドを開発するようなフィールドをカバ�
 
 - CLIツール: `sxp`, `math2img`
   - `sxp`: `cairo` を用いてPDFをSVGに変換したり戻すツール。講義のスライドの穴開き部分を復旧するために作った
-  - `math2img`:
-  数式を画像に変換するCLIツール。Amabotの数式描画部分をライブラリ化してCLI化した
+  - `math2img`:数式を画像に変換するCLIツール。Amabotの数式描画部分をライブラリ化してCLI化した
 - 数独を解く計算ライブラリ: #link("https://github.com/gw31415/number_place")[`number_place`]
   - WebAssembly版: #link(
       "https://gw31415.github.io/number_place.js/",
@@ -409,7 +408,148 @@ fn main() {
 
 === 継承より合成
 
+Rustは*マルチパラダイム*な言語と言って、オブジェクト指向や式指向など、様々な書きかたができるプログラミング言語です。Rustではオブジェクト指向的書き方で開発をすることもよくあります。
+
+オブジェクト指向プログラミングとは、様々な事柄を「オブジェクト」として考えるプログラミング手法です。例えば、複素数について扱いたい場合に実部と虚部を1つにまとめて「複素数」という型を作成し、複素数に対して使える関数を定義することでオブジェクトを起点にロジックを纏めていくことで細かい計算部分を隠蔽することができます。
+
+型を新しく作成する際、別の型とよく似た型を作成したいことがあると思います。例えば、Animalというクラスが既にあった場合、Dogというクラスを作成したいと思うかもしれません。この場合、DogはAnimalとして扱えたら便利です。このような機能を実現するために、多くの言語では*継承*という機能が用いられます。継承は、既存のクラスを拡張する形で新しいクラスを作成します。
+
+```python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print(f"{self.name} is speaking.")
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def bark(self):
+        print(f"{self.name} is barking.")
+
+dog = Dog("Pochi")
+dog.speak()  # "Pochi is speaking."
+```
+
+しかし、継承は*継承の階層が深くなると複雑になりがち*です。例えば、Animalクラスを継承したDogクラスをさらに継承したPoodleクラスを作成する場合、PoodleクラスはAnimalクラスのメソッドを持つことになります。このようにして、親から子、孫、ひ孫と継承していくと、*継承の階層が深くなりすぎてしまう*ことがあります。継承の階層が深くなると、*どのクラスがどのメソッドを持っているのか*が分かりにくくなり、コードの保守性が下がります。
+
+Rustでは、継承よりも*合成*を推奨しています。合成とは、既存のクラスを拡張する形で新しいクラスを作成するのではなく、持っていてほしい「特徴」を合成していく形で新しいクラスを作成する手法です。その特徴のことを*トレイト*と呼びます。トレイトは、クラスに対して特定の機能を提供するためのインターフェースのようなものです。これにより、*継承の階層が深くなることを防ぎつつ、クラスに特定の機能を追加する*ことができます。
+
+```rust
+trait Animal {
+    fn speak(&self);
+}
+
+struct Dog {
+    name: String,
+}
+
+impl Animal for Dog {
+    fn speak(&self) {
+        println!("{name} is speaking.");
+    }
+}
+```
+
+Rustでは、トレイト機能が様々な場面で使われています。例えば、`Copy`トレイトを実装している型は、ムーブセマンティクスではなくコピーセマンティクスが適用されるようになります。また、*演算子のオーバーロードもトレイトを用いて行われます*。例えば、`+`演算子は`Add`トレイトを実装している型に対して使うことができます。
+
+```rust
+use std::ops::Add;
+
+struct Complex {
+    real: f64,
+    imag: f64,
+}
+
+impl Add for Complex {
+    type Output = Complex;
+
+    fn add(self, other: Complex) -> Complex {
+        Complex {
+            real: self.real + other.real,
+            imag: self.imag + other.imag,
+        }
+    }
+}
+
+fn main() {
+    let a = Complex {
+        real: 1.0,
+        imag: 2.0,
+    };
+    let b = Complex {
+        real: 3.0,
+        imag: 4.0,
+    };
+    let c = a + b;
+    println!("{} + {}i", c.real, c.imag); // 4 + 6i
+}
+```
+
 === マクロ
+
+マクロは、プログラムの中でプログラムを生成する機能です。マクロはRustソースコードを生成することができる機能のことですが、今回はその言語仕様について深く立ち入ることは割愛します。マクロを用いると以下のようなソースコードもRustとしてコンパイルすることができるのです。
+
+```rust
+// MIT License
+// Copyright (c) 2021 kangalioo
+// https://github.com/serenity-rs/poise/blob/c67dde58e2a185193738b30f2b1e8600dcf391cd/examples/quickstart/main.rs
+
+/// Displays your or another user's account creation date
+#[poise::command(slash_command, prefix_command)]
+async fn age(
+    ctx: Context<'_>,
+    #[description = "Selected user"] user: Option<serenity::User>,
+) -> Result<(), Error> {
+    let u = user.as_ref().unwrap_or_else(|| ctx.author());
+    let response = format!("{}'s account was created at {}", u.name, u.created_at());
+    ctx.say(response).await?;
+    Ok(())
+}
+```
+#image("discord-cmd-using.png")
+#image("discord-cmd-used.png")
+
+```rust
+// MIT License
+// Copyright (c) 2022 Greg Johnston
+
+use leptos::*;
+
+#[component]
+pub fn SimpleCounter(initial_value: i32) -> impl IntoView {
+    // create a reactive signal with the initial value
+    let (value, set_value) = create_signal(initial_value);
+
+    // create event handlers for our buttons
+    // note that `value` and `set_value` are `Copy`,
+    // so it's super easy to move them into closures
+    let clear = move |_| set_value(0);
+    let decrement = move |_| set_value.update(|value| *value -= 1);
+    let increment = move |_| set_value.update(|value| *value += 1);
+
+    // create user interfaces with the declarative `view!` macro
+    view! {
+        <div>
+            <button on:click=clear>Clear</button>
+            <button on:click=decrement>-1</button>
+            // text nodes can be quoted for additional control over formatting
+            <span>"Value: " {value} "!"</span>
+            <button on:click=increment>+1</button>
+        </div>
+    }
+}
+
+pub fn main() {
+    mount_to_body(|| {
+        view! {
+            <SimpleCounter initial_value=3 />
+        }
+    })
+}
+```
 
 = Rustが不便なとき
 
