@@ -25,7 +25,7 @@
   show raw.where(block: false): it => {
     h(.2em, weak: true)
     box(
-      fill: luma(240), inset: (x: 2pt, y: 0pt), outset: (y: 2pt), radius: 2pt, clip: true, it,
+      fill: luma(240), inset: (x: 2pt, y: 0pt), outset: (y: 1pt), radius: 2pt, clip: true, it,
     )
     h(.2em, weak: true)
   }
