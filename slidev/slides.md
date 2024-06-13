@@ -60,3 +60,65 @@ layout: bullets
 - 世の中にある<ins>**様々な言語機能**</ins>を知る。
 - Rust を<ins>**学習する意義**</ins>は？
 - Rust の<ins>**使いどころ**</ins>は？
+
+---
+layout: section
+---
+
+# Rustが便利と思える瞬間
+
+---
+layout: image-right
+transition: fade
+image: "/math2img.png"
+---
+
+# Rustで作れるもの
+
+- <ins>**コマンドラインツール**</ins>
+- Web系
+    - サーバーサイド
+    - フロントエンド
+- DSL
+
+---
+layout: iframe-right
+transition: fade
+url: https://docs.rs/axum/latest/axum/
+---
+
+# Rustで作れるもの
+
+- コマンドラインツール
+- Web系
+    - <ins>**サーバーサイド**</ins>
+    - フロントエンド
+- DSL
+
+---
+layout: iframe-right
+transition: fade
+url: https://leptos.dev
+---
+
+# Rustで作れるもの
+
+- コマンドラインツール
+- Web系
+    - サーバーサイド
+    - <ins>**フロントエンド**</ins>
+- DSL
+
+---
+layout: image-right
+transition: fade
+image: "/amabot.png"
+---
+
+# Rustで作れるもの
+
+- コマンドラインツール
+- Web系
+    - サーバーサイド
+    - フロントエンド
+- <ins>**DSL**</ins>
