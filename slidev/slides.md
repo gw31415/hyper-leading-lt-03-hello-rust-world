@@ -478,6 +478,255 @@ layout: section
 ## 2. 所有権と型
 
 ---
+layout: statement
+---
+
+変数が値を**所有**している
+
+---
+
+# クイズ
+
+```python {monaco-run} {autorun:false}
+from copy import copy
+a = [0, [1, 2]]
+b = copy(a)
+b.append(5)
+b[1].append(3)
+print(a)
+```
+
+- `[0, [1, 2]]`
+- `[0, [1, 2], 5]`
+- `[0, [1, 2, 3]]` <v-click>←正解</v-click>
+- `[0, [1, 2, 3], 5]`
+
+---
+layout: image
+image: "/pgrit-py.png"
+---
+
+---
+
+```python {monaco-run} {autorun:false}
+a = "hello"
+b = a
+b = "world"
+print(a)
+```
+
+- <v-click><strong>コピー</strong></v-click>が起きている
+
+```python {monaco-run} {autorun:false}
+a = [1, 2, 3]
+b = a
+b[0] = 4
+print(a)
+```
+
+- <v-click><strong>値の共有</strong></v-click>が起きている
+
+<center v-click>
+
+変数に与えている値によって動作が変わってしまう
+
+</center>
+
+---
+
+同様のことをRustでやろうとすると……
+
+```rust {monaco-run} {autorun:false}
+fn main() {
+    //! WARNING: このコードはコンパイルできません
+    let a = String::from("hello");
+    let mut b = a;
+    b = String::from("world");
+    println!("{:?}", a);
+
+    let mut a = vec![1, 2, 3];
+    let b = &a;
+    a[0] = 4;
+    println!("{:?}", b);
+}
+```
+
+---
+layout: bullets
+---
+
+# そもそも代入とは？
+
+<v-clicks>
+
+- 値の所有権の移動
+- 値のコピー
+- 値の共有
+
+</v-clicks>
+
+<center>
+
+**Rust ではこれらを明確に区別しないとコードが書けない**
+
+</center>
+
+---
+
+# 所有権の移動
+
+```rust {monaco-run} {autorun:false}
+fn main() {
+    let a = String::from("hello");
+    let b = a;
+    // これ以降 a は使えない
+}
+```
+
+- ただ値が移動するだけで、値のコピーは起きない
+
+---
+
+# 値のコピー
+
+- `.clone()`メソッドを**明示的**に使う
+
+```rust {monaco-run} {autorun:false}
+fn main() {
+    let mut a = String::from("hello");
+    let b = a.clone();
+
+    a.push_str("world");
+
+    println!("{:?}", a);  // "helloworld"
+    println!("{:?}", b);  // "hello"
+}
+```
+
+<v-click>
+
+- 移動ではなくコピーをデフォルトすることもできる
+    - 明示的に指定する必要がある
+
+</v-click>
+
+---
+layout: statement
+---
+
+# 値の共有
+
+値の共有は どのプログラミングでも **かなり厄介**
+
+---
+layout: fact
+---
+
+<v-click>
+
+# 70%
+
+</v-click>
+
+Microsoftが過去 12 年間で対処したセキュリティバグ(2019年時点)
+
+---
+layout: bullets
+---
+
+# メモリ管理の難しさ
+
+<v-clicks>
+
+- 値はメモリに保持しなければならない
+- メモリは有限
+- メモリを解放しないといけない
+- <div style="color:red">メモリの解放でミスる</div>
+
+</v-clicks>
+
+---
+layout: image
+image: "/memory-errors.png"
+---
+---
+
+# メモリ安全性へのアプローチ
+
+- C/C++/Zig
+    - <v-click><strong>プログラマー</strong>が手動でメモリ管理を行う</v-click>
+- Java/Go
+    - <v-click><strong>ガベージコレクタ</strong>が自動的にメモリ管理を行う</v-click>
+- Rust
+    - <v-click><strong>所有権・借用ルール</strong>さえ守ればメモリ安全・自動的に解放</v-click>
+
+---
+layout: statement
+---
+
+# 結局値の共有はどうするの？
+
+- <v-click><strong>スマートポインタ</strong></v-click>を使う
+
+<v-click>
+二重解放や無効な解放が起きないかを制御するメモリコンテナ
+</v-click>
+
+---
+
+# スマートポインタの種類
+
+<Transform :scale=0.8>
+
+![smart-pointers](/rust-memory-container-cs-3840x2160-white-back-black-ink.png)
+
+</Transform>
+
+---
+layout: statement
+---
+
+レイアウトの選定難しい……
+
+<v-clicks>
+
+- 必要そうなものを入れ子にする！
+- コンパイラ先生が許すまでトライする
+
+</v-clicks>
+
+---
+layout: full
+---
+
+```rust {monaco-run} {autorun:false}
+use std::{ io::{stdout, Write as _}, sync::{Arc, Mutex}, thread, time::Duration};
+
+fn main() {
+    let count = Arc::new(Mutex::new(0));
+    let mut threads = vec![];
+
+    for _ in 0..10 {
+        // Arcをクローン
+        let count = count.clone();
+
+        threads.push(thread::spawn(move || { // 新規スレッドを生成
+            thread::sleep(Duration::from_secs(1));
+            let mut count = count.lock().unwrap(); // Mutexをロックしてアクセス
+            *count += 1;
+            println!("Count: {}", count);
+            stdout().flush().unwrap();
+ }));
+    }
+
+    // スレッドの待ち合わせ
+    for t in threads {
+        t.join().unwrap();
+    }
+}
+```
+
+---
 layout: section
 ---
 
