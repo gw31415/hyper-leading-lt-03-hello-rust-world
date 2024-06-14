@@ -27,9 +27,13 @@ layout: bullets
 
 # What is Rust?
 
+<v-clicks>
+
 - パフォーマンス
 - 安全性
 - 開発体験
+
+</v-clicks>
 
 ---
 layout: statement
@@ -37,9 +41,9 @@ layout: statement
 
 # 先進的概念の積極導入
 
-<div v-click>
+<v-click>
 Rustは陶酔する人がとても多い
-</div>
+</v-click>
 
 ---
 layout: iframe
@@ -57,9 +61,13 @@ layout: bullets
 
 # この発表の目標
 
-- 世の中にある<ins>**様々な言語機能**</ins>を知る。
-- Rust を<ins>**学習する意義**</ins>は？
-- Rust の<ins>**使いどころ**</ins>は？
+<v-clicks>
+
+- 世の中にある**様々な言語機能**を知る。
+- Rust を**学習する意義**は？
+- Rust の**使いどころ**は？
+
+</v-clicks>
 
 ---
 layout: section
@@ -75,7 +83,7 @@ image: "/math2img.png"
 
 # Rustで作れるもの
 
-- <ins>**コマンドラインツール**</ins>
+- **コマンドラインツール**
 - Web系
     - サーバーサイド
     - フロントエンド
@@ -91,7 +99,7 @@ url: https://docs.rs/axum/latest/axum/
 
 - コマンドラインツール
 - Web系
-    - <ins>**サーバーサイド**</ins>
+    - **サーバーサイド**
     - フロントエンド
 - DSL
 
@@ -106,7 +114,7 @@ url: https://leptos.dev
 - コマンドラインツール
 - Web系
     - サーバーサイド
-    - <ins>**フロントエンド**</ins>
+    - **フロントエンド**
 - DSL
 
 ---
@@ -121,4 +129,4 @@ image: "/amabot.png"
 - Web系
     - サーバーサイド
     - フロントエンド
-- <ins>**DSL**</ins>
+- **DSL**
