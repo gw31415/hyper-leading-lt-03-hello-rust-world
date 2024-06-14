@@ -154,3 +154,36 @@ layout: two-cols-header
 - 強力な**マクロ**
 
 </v-clicks>
+
+---
+layout: section
+---
+
+# ポイント
+
+## 1. 制御構文
+
+---
+layout: section
+---
+
+# ポイント
+
+## 2. 所有権と型
+
+---
+layout: section
+---
+
+# ポイント
+
+## 3. 継承より合成 
+
+---
+layout: section
+---
+
+# ポイント
+
+## 4. マクロ
+
