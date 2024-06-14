@@ -164,6 +164,66 @@ layout: section
 ## 1. 制御構文
 
 ---
+layout: default
+---
+
+# 制御構文 - 条件分岐
+
+```rust {monaco-run} {autorun:false}
+fn main() {
+    // if-else
+    let x = 5;
+    if x < 10 {
+        println!("x < 10");
+    } else {
+        println!("x >= 10");
+    }
+}
+```
+
+---
+layout: default
+---
+
+# 制御構文 - 基本ループ
+
+```rust {monaco-run} {autorun:false}
+fn main() {
+    // while
+    let mut number = 3;
+    while number != 0 {
+        println!("number: {}", number);
+        number -= 1;
+    }
+
+    // forループ
+    for element in [10, 20, 30, 40, 50] {
+        println!("element: {}", element);
+    }
+}
+```
+
+---
+layout: default
+---
+
+# 制御構文 - 無限ループ
+
+```rust {monaco-run} {autorun:false}
+fn main() {
+    // 無限ループ
+    let mut counter = 0;
+    loop {
+        counter += 1;
+        println!("counter: {}", counter);
+        if counter == 10 {
+            break;
+        }
+    }
+}
+```
+
+---
 layout: section
 ---
 
