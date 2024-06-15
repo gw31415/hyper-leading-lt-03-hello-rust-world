@@ -1,25 +1,24 @@
 name: Release
 on:
   push:
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   typst-compilation:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
+      - name: Install Typst
+        run: |
+          brew install font-hackgen-nerd typst
       - name: Compile documents to PDF using Typst
-        uses: lvignoli/typst-action@main
-        with:
-          source_file: doc/hello-rust-world.typ
+        run: typst compile doc/hello-rust-world.typ
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
         with:
           name: Documents
           path: doc/hello-rust-world.pdf
   slidev-export:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout
         uses: actions/checkout@v4
