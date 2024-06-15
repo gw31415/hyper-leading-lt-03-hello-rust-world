@@ -643,7 +643,7 @@ layout: fact
 
 </v-click>
 
-Microsoftが過去 12 年間で対処したセキュリティバグ(2019年時点)
+Microsoftが過去 12 年間で対処したセキュリティバグのうち<br>メモリエラーの占める割合(2019年時点)
 
 ---
 layout: bullets
