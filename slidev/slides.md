@@ -965,3 +965,82 @@ layout: section
 
 ## 4. マクロ
 
+---
+
+# マクロとは
+
+- **ソースコード自体を**生成する機能
+    - **コンパイル時**に展開される
+
+---
+layout: two-cols-header
+---
+
+## Discordのコマンド実装
+
+::left::
+
+```rust {monaco}
+// MIT License
+// Copyright (c) 2021 kangalioo
+// https://github.com/serenity-rs/poise/blob/c67dde58e2a185193738b30f2b1e8600dcf391cd/examples/quickstart/main.rs
+
+/// Displays your or another user's account creation date
+#[poise::command(slash_command, prefix_command)]
+async fn age(
+    ctx: Context<'_>,
+    #[description = "Selected user"] user: Option<serenity::User>,
+) -> Result<(), Error> {
+    let u = user.as_ref().unwrap_or_else(|| ctx.author());
+    let response = format!("{}'s account was created at {}", u.name, u.created_at());
+    ctx.say(response).await?;
+    Ok(())
+}
+```
+
+::right::
+
+![cmd-using](/discord-cmd-using.png)
+
+![cmd-used](/discord-cmd-used.png)
+
+---
+
+# React風コンポーネント
+
+```rust {monaco}
+// MIT License - Copyright (c) 2022 Greg Johnston
+
+use leptos::*;
+
+#[component]
+pub fn SimpleCounter(initial_value: i32) -> impl IntoView {
+    let (value, set_value) = create_signal(initial_value);
+
+    let clear = move |_| set_value(0);
+    let decrement = move |_| set_value.update(|value| *value -= 1);
+    let increment = move |_| set_value.update(|value| *value += 1);
+
+    view! {
+        <div>
+            <button on:click=clear>Clear</button>
+            <button on:click=decrement>-1</button>
+            <span>"Value: " {value} "!"</span>
+            <button on:click=increment>+1</button>
+        </div>
+    }
+}
+```
+
+---
+layout: section
+---
+
+# Rust が不便なとき
+
+---
+layout: section
+---
+
+# Rust の使い所
+
