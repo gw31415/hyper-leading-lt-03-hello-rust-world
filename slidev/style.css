@@ -1,0 +1,13 @@
+.slidev-layout {
+    h1, h2 {
+        font-size: 3rem;
+        margin: .5em 0;
+    }
+    p, ul {
+        font-size: 2rem;
+        font-weight: 500;
+    }
+    strong {
+        font-weight: 900;
+    }
+}
