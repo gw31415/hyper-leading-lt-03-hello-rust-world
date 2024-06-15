@@ -263,11 +263,11 @@ fn main() {
 }
 ```
 
-<center>
+<div class="text-center">
 
 **構造体の中身**も見れる
 
-</center>
+</div>
 
 </v-clicks>
 
@@ -323,11 +323,11 @@ fn main() {
 }
 ```
 
-<center v-click>
+<div v-click class="text-center">
 
 **三項演算子**の代わりに使える
 
-</center>
+</div>
 
 ---
 
@@ -375,11 +375,11 @@ fn main() {
 
 ---
 
-<center>
+<div class="text-center">
 
 返り値での例外処理は**大域脱出**しにくい
 
-</center>
+</div>
 
 ```go {monaco} {autorun:false}
 package main
@@ -431,11 +431,11 @@ fn parse_test() -> Result<(), std::num::ParseIntError> {
 - `?`演算子は`Result`型を返す関数内でのみ利用可能
 - `Result`型が`Ok`なら`Ok`の中身を返し、`Err`ならそのまま`Err`を返す
 
-<center>
+<div class="text-center">
 
 大まかなロジックの見た目を汚すことなくエラーを纏める
 
-</center>
+</div>
 
 ---
 
@@ -457,11 +457,11 @@ async function main() {
 }
 ```
 
-<center>
+<div class="text-center">
 
 たくさんの`await` → たくさんの `(await (await ...))`
 
-</center>
+</div>
 
 </v-clicks>
 
@@ -476,11 +476,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }
 ```
 
-<center v-click>
+<div v-click class="text-center">
 
 たくさんの`await` → たくさんの `.await?.await?`
 
-</center>
+</div>
 
 ---
 layout: section
@@ -498,7 +498,7 @@ layout: statement
 
 ---
 
-# クイズ
+## クイズ
 
 ```python {monaco-run} {autorun:false}
 from copy import copy
@@ -539,11 +539,11 @@ print(a)
 
 - <v-click><strong>値の共有</strong></v-click>が起きている
 
-<center v-click>
+---
+layout: statement
+---
 
 変数に与えている値によって動作が変わってしまう
-
-</center>
 
 ---
 
@@ -578,11 +578,11 @@ layout: bullets
 
 </v-clicks>
 
-<center>
+<div class="text-center">
 
 **Rust ではこれらを明確に区別しないとコードが書けない**
 
-</center>
+</div>
 
 ---
 
@@ -684,17 +684,12 @@ layout: statement
 </v-click>
 
 ---
-
-# スマートポインタの種類
-
-<Transform :scale=0.8>
-
-![smart-pointers](/rust-memory-container-cs-3840x2160-white-back-black-ink.png)
-
-</Transform>
+layout: image
+image: "/rust-memory-container-cs-3840x2160-white-back-black-ink.png"
+---
 
 ---
-layout: statement
+layout: bullets
 ---
 
 スマートポインタの選定難しい……
@@ -762,7 +757,7 @@ Rustは**マルチパラダイム**言語
 
 - 処理を**部品化**し、組み合わせてプログラムを構築する手法
 
-<center>
+<div class="text-center">
 
 ```mermaid
 classDiagram
@@ -774,7 +769,7 @@ classDiagram
 
 ```
 
-</center>
+</div>
 
 ---
 
@@ -811,7 +806,7 @@ dog.bark()
 
 ::right::
 
-<center>
+<div class="text-center">
 
 ```mermaid
 classDiagram
@@ -829,7 +824,7 @@ classDiagram
     Animal <|-- Cat
 ```
 
-</center>
+</div>
 
 ---
 layout: two-cols-header
@@ -885,7 +880,7 @@ classDiagram
 
 - 抽象クラスの代わりに**トレイト** (部品)
 
-<center>
+<div class="text-center">
 
 ```mermaid
 classDiagram
@@ -908,13 +903,13 @@ classDiagram
     Aged <|.. Cat
 ```
 
-</center>
+</div>
 
 ---
 
 - どれだけ多くのクラスを作っても考えるのは**2層だけ**
 
-<center>
+<div class="text-center">
 
 ```mermaid
 classDiagram
@@ -940,7 +935,7 @@ classDiagram
     X <|.. C
 ```
 
-</center>
+</div>
 
 ---
 
@@ -1022,16 +1017,12 @@ async fn age(
 ```rust {monaco}
 // MIT License - Copyright (c) 2022 Greg Johnston
 
-use leptos::*;
-
 #[component]
 pub fn SimpleCounter(initial_value: i32) -> impl IntoView {
     let (value, set_value) = create_signal(initial_value);
-
     let clear = move |_| set_value(0);
     let decrement = move |_| set_value.update(|value| *value -= 1);
     let increment = move |_| set_value.update(|value| *value += 1);
-
     view! {
         <div>
             <button on:click=clear>Clear</button>
@@ -1095,11 +1086,11 @@ Rust便利そう！でも……
 - 型チェックが厳しい
 - マクロが高機能
 
-<center v-click>
+<div v-click class="text-center">
 
 **コンパイル時間がめっちゃ長い**
 
-</center>
+</div>
 
 <v-click>
 
