@@ -55,7 +55,9 @@ layout: statement
 # 先進的概念の積極導入
 
 <v-click>
+
 Rustは陶酔する人がとても多い
+
 </v-click>
 
 ---
