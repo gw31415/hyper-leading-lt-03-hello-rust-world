@@ -686,7 +686,7 @@ layout: statement
 layout: statement
 ---
 
-レイアウトの選定難しい……
+スマートポインタの選定難しい……
 
 <v-clicks>
 
