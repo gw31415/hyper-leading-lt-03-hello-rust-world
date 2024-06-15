@@ -735,6 +735,229 @@ layout: section
 ## 3. 継承より合成 
 
 ---
+layout: statement
+---
+
+Rustは**マルチパラダイム**言語
+
+- 手続き型プログラミング
+- オブジェクト指向プログラミング
+- 関数型プログラミング
+- ...
+
+---
+
+# オブジェクト指向とは
+
+- 処理を**部品化**し、組み合わせてプログラムを構築する手法
+
+<center>
+
+```mermaid
+classDiagram
+    class Dog {
+        + name: String
+        + age: u8
+        + bark()
+    }
+
+```
+
+</center>
+
+---
+
+## 継承
+
+- **よく似た型**を作りたいことがある
+    - 例: `Dog`と`Cat`は別々の型だが、共通の特徴を持つ
+
+---
+layout: two-cols-header
+---
+
+多くの言語では**継承**を使って実現する
+
+::left::
+
+```python {monaco-run} {autorun:false}
+class Animal:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+class Dog(Animal):
+    def bark(self):
+        print("Bow-wow, my name is", self.name)
+
+class Cat(Animal):
+    def meow(self):
+        print("Meow, my name is", self.name)
+
+dog = Dog("Pochi", 3)
+dog.bark()
+```
+
+::right::
+
+<center>
+
+```mermaid
+classDiagram
+    class Animal {
+        + name: String
+        + age: u8
+    }
+    class Dog {
+        + bark()
+    }
+    class Cat {
+        + meow()
+    }
+    Animal <|-- Dog
+    Animal <|-- Cat
+```
+
+</center>
+
+---
+layout: two-cols-header
+---
+
+## 継承の問題点
+
+- **多重継承**が難しい
+
+::left::
+
+<v-click>
+
+```mermaid
+classDiagram
+    direction LR
+    class A {
+        + hello()
+    }
+    class B {
+        + bye()
+    }
+    class C {
+        + yay()
+    }
+    class X {
+        + hoge()
+    }
+    class Y {
+        + huga()
+    }
+    A <|-- B
+    B <|-- C
+    B <|-- X
+    C <|-- Y
+```
+
+</v-click>
+
+::right::
+
+<v-clicks>
+
+- `Y`の`bye()`の定義は<br />どこ由来？
+- 次のクラスはどこに<br />くっつける？
+
+</v-clicks>
+
+---
+
+
+# 継承の代わりに合成
+
+- 抽象クラスの代わりに**トレイト** (部品)
+
+<center>
+
+```mermaid
+classDiagram
+    direction TD
+    class Named {
+        + getName()
+    }
+    class Aged {
+        + getAge()
+    }
+    class Dog {
+        + bark()
+    }
+    class Cat {
+        + meow()
+    }
+    Named <|.. Dog
+    Named <|.. Cat
+    Aged <|.. Dog
+    Aged <|.. Cat
+```
+
+</center>
+
+---
+
+- どれだけ多くのクラスを作っても考えるのは**2層だけ**
+
+<center>
+
+```mermaid
+classDiagram
+    direction TD
+    class A {
+        + hello()
+    }
+    class B {
+        + bye()
+    }
+    class C {
+        + yay()
+    }
+    class X {
+        + hoge()
+    }
+    class Y {
+        + huga()
+    }
+    X <|.. B
+    Y <|.. C
+    Y <|.. A
+    X <|.. C
+```
+
+</center>
+
+---
+
+- 演算子のオーバーロード
+
+```rust {monaco-run} {autorun:false}
+use std::ops::Add;
+
+struct Complex { real: f64, imag: f64 }
+
+impl Add for Complex {
+    type Output = Complex;
+
+    fn add(self, other: Complex) -> Complex {
+        Complex { real: self.real + other.real, imag: self.imag + other.imag }
+    }
+}
+
+fn main() {
+    let a = Complex { real: 1.0, imag: 2.0 };
+    let b = Complex { real: 3.0, imag: 4.0 };
+    let c = a + b;
+    println!("{} + {}i", c.real, c.imag);
+}
+```
+
+
+---
 layout: section
 ---
 
