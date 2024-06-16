@@ -7,7 +7,6 @@ drawings:
 transition: slide-left
 image: "/rust-top.jpg"
 layout: intro-image
-download: true
 ---
 
 # いつRustを選択するべきか
