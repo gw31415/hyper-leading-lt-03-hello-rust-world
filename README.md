@@ -6,24 +6,24 @@
 
 ## ファイル構成
 
+- `doc/` : 原稿
+  - `img/`
+    - 原稿中で使用する画像ファイル
+  - `hello-rust-world.bib`
+    - 原稿中で使用する参考文献
+  - `hello-rust-world.typ`
+    - 原稿のエントリポイント
+  - `template.typ`
+    - 原稿のテンプレートファイル
+- `slidev/` : スライド
+  - `public/`
+    - スライド中の静的ファイル(画像ファイルなど)
+  - `slides.md`
+    - スライドのエントリポイント
 - `.github/workflows/release.yml`
   - ビルドとリリースの自動化設定
 - `LICENSE`
   - このプロジェクトのライセンス
-- `doc` : 原稿
-  - `hello-rust-world.bib`
-  - 原稿中で使用する参考文献
-  - `hello-rust-world.typ`
-    - 原稿のエントリポイント
-  - `img`
-  - 原稿中で使用する画像ファイル
-  - `template.typ`
-  - 原稿のテンプレートファイル
-- `slidev` : スライド
-  - `public`
-  - スライド中の静的ファイル(画像ファイルなど)
-  - `slides.md`
-  - スライドのエントリポイント
 
 ## PDFのビルド方法
 
