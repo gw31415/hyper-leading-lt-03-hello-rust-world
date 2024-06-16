@@ -24,7 +24,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true || github.event_name == 'push'
     steps:
       - name: Checkout
